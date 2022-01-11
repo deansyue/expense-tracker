@@ -9,13 +9,8 @@ router.get('/new', (req, res) => {
 })
 
 //新增費用支出的路由
-router.post('/new', (req, res) => {
+router.post('/', (req, res) => {
 
-})
-
-//顯示費用支出詳細資料的路由
-router.get('/:id', (req, res) => {
-  res.render('detail')
 })
 
 //修改特定費用支出，開啟修改頁面的路由
