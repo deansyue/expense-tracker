@@ -25,8 +25,9 @@
     <div class="col-sm-5">
       <select id="category" name="category" class="form-control border-dark">
         <option selected>Select</option>
-        <option value="1">晚餐</option>
-        <option value="2">中餐</option>
+        {{#each categories}}
+        <option value={{this._id}}>{{this.name}}</option>
+        {{/each}}
       </select>
     </div>
   </div>
