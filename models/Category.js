@@ -9,7 +9,7 @@ const CategorySchema = new Schema({
     required: true,
   },
 
-  imgURL: {
+  icon: {
     type: String,
   },
 

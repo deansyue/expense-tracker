@@ -9,27 +9,27 @@ const db = require('../../config/mongoose')
 const SEED_CATEGORY = [
   {
     name: '家居物業',
-    imgURL: "https://fontawesome.com/icons/home?style=solid"
+    icon: "fas fa-home"
   },
 
   {
     name: '交通出行',
-    imgURL: "https://fontawesome.com/icons/shuttle-van?style=solid"
+    icon: "fas fa-shuttle-van"
   },
 
   {
     name: '休閒娛樂',
-    imgURL: "https://fontawesome.com/icons/grin-beam?style=solid"
+    icon: "fas fa-grin-beam"
   },
 
   {
     name: '餐飲食品',
-    imgURL: "https://fontawesome.com/icons/utensils?style=solid"
+    icon: "fas fa-utensils"
   },
 
   {
     name: '其他',
-    imgURL: "https://fontawesome.com/icons/pen?style=solid"
+    icon: "fas fa-pen"
   },
 ]
 
