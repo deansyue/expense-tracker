@@ -4,11 +4,6 @@ const Schema = mongoose.Schema
 
 //設定Category的Schema
 const CategorySchema = new Schema({
-  id: {
-    type: Number,
-    required: true,
-  },
-
   name: {
     type: String,
     required: true,
@@ -16,7 +11,12 @@ const CategorySchema = new Schema({
 
   imgURL: {
     type: String,
-  }
+  },
+
+  createAt: {
+    type: Date,
+    default: Date.now
+  },
 })
 
 //匯出模組

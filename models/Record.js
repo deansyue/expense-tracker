@@ -1,13 +1,10 @@
 //引入模組
+const { type } = require('express/lib/response')
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 //設定Record的Schema
 const RecordSchema = new Schema({
-  id: {
-    type: Number,
-    required: true,
-  },
 
   name: {
     type: String,
@@ -24,8 +21,13 @@ const RecordSchema = new Schema({
     required: true,
   },
 
+  createAt: {
+    type: Date,
+    default: Date.now
+  },
+
   categoryId: {
-    type: Number,
+    type: Schema.Types.ObjectId,
     ref: 'Category',
     index: true,
     required: true,
