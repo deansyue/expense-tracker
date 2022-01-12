@@ -20,6 +20,8 @@ require('./config/mongoose')
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
+// 使用 express內建的body - parser 進行前置處理
+app.use(express.urlencoded({ extended: true }))
 //導入路由相關模組
 app.use(router)
 

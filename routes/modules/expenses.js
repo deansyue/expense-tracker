@@ -2,6 +2,7 @@
 const express = require('express')
 
 const Category = require('../../models/Category')
+const Record = require('../../models/Record')
 
 const router = express.Router()
 
@@ -13,11 +14,32 @@ router.get('/new', (req, res) => {
     .then((categories) => {
       return res.render('new', { categories })
     })
+    .catch(err => console.log(err))
 
 })
 
 //新增費用支出的路由
 router.post('/', (req, res) => {
+  const { name, date, categoryId, amount } = req.body
+  //若必輸入欄位有一個未輸入，重新渲染new頁面
+  if (!name || !date || !categoryId || !amount) {
+    return Category.find({}, { name: 1 })
+      .lean()
+      .then((categories) => {
+        return res.render('new', { categories, name, date, amount })
+      })
+      .catch(err => console.log(err))
+  }
+
+  //新增資料至mongodb
+  return Record.create({
+    name,
+    date,
+    categoryId,
+    amount,
+  })
+    .then(() => res.redirect('/'))
+    .catch(err => console.log(err))
 
 })
 
