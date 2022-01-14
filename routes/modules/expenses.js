@@ -22,12 +22,15 @@ router.get('/new', (req, res) => {
 
 //新增費用支出的路由
 router.post('/', (req, res) => {
-  const { name, date, categoryId, amount } = req.body
+  let { name, date, categoryId, amount } = req.body
   //若必輸入欄位有一個未輸入，重新渲染new頁面
   if (!name || !date || !categoryId || !amount) {
     return Category.find({}, { name: 1 })
       .lean()
       .then((categories) => {
+        //修改date的日期格式
+        date = moment(date).format('YYYY-MM-DD')
+        //取回 修改前的種類物件資料
         const selected_category = categories.find(function filter_category(category) {
           return category._id.toString() === categoryId.toString()
         })
