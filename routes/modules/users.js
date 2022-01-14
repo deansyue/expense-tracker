@@ -12,11 +12,9 @@ router.get('/register', (req, res) => {
 })
 
 //註冊使用者路由
-router.post('/register', passport.authenticate('local', {
-  //使用passport驗証方法，設置驗証正確與錯誤時指向的路由
-  successRedirect: '/',
-  failureRedirect: '/users/login'
-}))
+router.post('/register', (req, res) => {
+
+})
 
 //開啟登入表單路由
 router.get('/login', (req, res) => {
@@ -24,9 +22,11 @@ router.get('/login', (req, res) => {
 })
 
 //使用者登入路由
-router.post('/login', (req, res) => {
-
-})
+router.post('/login', passport.authenticate('local', {
+  //使用passport驗証方法，設置驗証正確與錯誤時指向的路由
+  successRedirect: '/',
+  failureRedirect: '/users/login'
+}))
 
 //使用者登出路由
 router.get('/logout', (req, res) => {
