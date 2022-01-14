@@ -1,0 +1,27 @@
+<form action="/users/login" method="POST" class="h-100">
+
+  <div class="col-sm-8 text-center mb-5">
+    <h1>使用者登入</h1>
+  </div>
+
+  <div class="form-group row ml-2 mb-5">
+    <label for="email" class="col-sm-2 col-form-label">Email:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control border-dark" id="email" name="email" value="{{email}}"
+        placeholder="使用者Email">
+    </div>
+  </div>
+
+  <div class="form-group row ml-2 mb-5">
+    <label for="password" class="col-sm-2 col-form-label">密碼:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control border-dark" id="password" name="password" placeholder="使用者密碼">
+    </div>
+  </div>
+
+
+  <div class="col-sm-8 text-center">
+    <button class="btn btn-success mr-2" type="submit">登入</button>
+    <a href="/users/register" class="btn btn-success">註冊使用者</a>
+  </div>
+</form>
