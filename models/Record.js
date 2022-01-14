@@ -32,6 +32,13 @@ const RecordSchema = new Schema({
     index: true,
     required: true,
   },
+
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    index: true,
+    required: true,
+  },
 })
 
 //匯出模組
