@@ -6,6 +6,7 @@ module.exports = {
       return next()
     }
     //沒有登入，回到登入頁面 
-    return res.redirect('/users/login')
+    req.flash('warning_msg', '請先登入才能使用此功能!')
+    res.redirect('/users/login')
   }
 }

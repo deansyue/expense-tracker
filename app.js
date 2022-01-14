@@ -2,6 +2,7 @@
 const express = require('express')
 const exphbs = require('express-handlebars').engine
 const methodOverride = require('method-override')
+const flash = require('connect-flash')
 const session = require('express-session')
 const usePassport = require('./config/passport')
 
@@ -37,6 +38,14 @@ app.use(session({
 }))
 //呼叫config/passport.js函式，並傳入app參數
 usePassport(app)
+//使用flash套件
+app.use(flash())
+app.use((req, res, next) => {
+  //設定message訊息
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.warning_msg = req.flash('warning_msg')
+  next()
+})
 //導入路由相關模組
 app.use(router)
 
