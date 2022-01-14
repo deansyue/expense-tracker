@@ -24,7 +24,7 @@ router.post('/register', (req, res) => {
   }
 
   //password與confirm_password輸入不一致時
-  if (confirm !== confirm_password) {
+  if (password !== confirm_password) {
     errors.push({ message: 'password與confirm_password不一致，請重新輸入!' })
   }
 
