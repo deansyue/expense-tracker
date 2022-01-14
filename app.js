@@ -2,6 +2,7 @@
 const express = require('express')
 const exphbs = require('express-handlebars').engine
 const methodOverride = require('method-override')
+const session = require('express-session')
 
 //環境非為正式上線，使用.env變數
 if (process.env.NODE_ENV !== 'production') {
@@ -27,6 +28,12 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 // 設置每一筆請求都會透過 methodOverride 進行前置處理
 app.use(methodOverride('_method'))
+// 設置session
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+}))
 //導入路由相關模組
 app.use(router)
 
