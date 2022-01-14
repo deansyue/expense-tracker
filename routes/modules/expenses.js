@@ -1,6 +1,5 @@
 //引入模組
 const express = require('express')
-const { redirect } = require('express/lib/response')
 const moment = require('moment')
 
 const Category = require('../../models/Category')
@@ -25,6 +24,8 @@ router.post('/', (req, res) => {
   let { name, date, categoryId, amount } = req.body
   //若必輸入欄位有一個未輸入，重新渲染new頁面
   if (!name || !date || !categoryId || !amount) {
+    const errors = []
+    errors.push({ message: '*為必輸入欄位，請重新輸入!' })
     return Category.find({}, { name: 1 })
       .lean()
       .then((categories) => {
@@ -34,7 +35,7 @@ router.post('/', (req, res) => {
         const selected_category = categories.find(function filter_category(category) {
           return category._id.toString() === categoryId.toString()
         })
-        return res.render('new', { categories, selected_category, name, date, amount })
+        return res.render('new', { errors, categories, selected_category, name, date, amount })
       })
       .catch(err => console.log(err))
   }
@@ -79,6 +80,8 @@ router.put('/:record_id', (req, res) => {
   let { name, date, categoryId, amount } = req.body
   //若有必輸入輸位未輸入，傳回已輸入資料讓使用者重新輸入
   if (!name || !date || !categoryId || !amount) {
+    const errors = []
+    errors.push({ message: '*為必輸入欄位，請重新輸入!' })
     return Category.find({}, { name: 1 })
       .lean()
       .then((categories) => {
@@ -95,7 +98,7 @@ router.put('/:record_id', (req, res) => {
         const selected_category = categories.find(function filter_category(category) {
           return category._id.toString() === categoryId.toString()
         })
-        return res.render('edit', { record_id, categories, selected_category, record })
+        return res.render('edit', { errors, record_id, categories, selected_category, record })
       })
       .catch(err => console.log(err))
   }
