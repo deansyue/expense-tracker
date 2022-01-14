@@ -1,5 +1,6 @@
 //引入模組
 const express = require('express')
+const passport = require('passport')
 
 const User = require('../../models/User')
 
@@ -11,9 +12,11 @@ router.get('/register', (req, res) => {
 })
 
 //註冊使用者路由
-router.post('/register', (req, res) => {
-
-})
+router.post('/register', passport.authenticate('local', {
+  //使用passport驗証方法，設置驗証正確與錯誤時指向的路由
+  successRedirect: '/',
+  failureRedirect: '/users/login'
+}))
 
 //開啟登入表單路由
 router.get('/login', (req, res) => {

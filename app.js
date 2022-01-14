@@ -3,6 +3,7 @@ const express = require('express')
 const exphbs = require('express-handlebars').engine
 const methodOverride = require('method-override')
 const session = require('express-session')
+const usePassport = require('./config/passport')
 
 //環境非為正式上線，使用.env變數
 if (process.env.NODE_ENV !== 'production') {
@@ -34,6 +35,8 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
 }))
+//呼叫config/passport.js函式，並傳入app參數
+usePassport(app)
 //導入路由相關模組
 app.use(router)
 
