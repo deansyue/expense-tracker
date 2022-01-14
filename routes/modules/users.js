@@ -30,7 +30,10 @@ router.post('/login', (req, res) => {
 
 //使用者登出路由
 router.get('/logout', (req, res) => {
-
+  //清除session
+  req.logout()
+  //重新指向登入路由
+  res.redirect('/users/login')
 })
 
 //匯出模組
