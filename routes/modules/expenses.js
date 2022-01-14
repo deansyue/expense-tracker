@@ -27,7 +27,10 @@ router.post('/', (req, res) => {
     return Category.find({}, { name: 1 })
       .lean()
       .then((categories) => {
-        return res.render('new', { categories, name, date, amount })
+        const selected_category = categories.find(function filter_category(category) {
+          return category._id.toString() === categoryId.toString()
+        })
+        return res.render('new', { categories, selected_category, name, date, amount })
       })
       .catch(err => console.log(err))
   }

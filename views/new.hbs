@@ -25,7 +25,12 @@
     <label for="category" class="col-sm-2 col-form-label">類別*:</label>
     <div class="col-sm-5">
       <select id="category" name="categoryId" class="form-control border-dark">
+        {{#if selected_category}}
+        <option value="{{selected_category._id}}">{{selected_category.name}}</option>
+        {{else}}
         <option value="" selected>Select</option>
+        {{/if}}
+
         {{#each categories}}
         <option value={{this._id}}>{{this.name}}</option>
         {{/each}}
