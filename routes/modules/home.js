@@ -9,6 +9,8 @@ const router = express.Router()
 
 //顯示首面的路由
 router.get('/', (req, res) => {
+  //取得使用者id
+  const userId = req.user._id
   //取出sort-bar的關鍵字
   let categoryId = req.query.categoryId
   Category.find({}, { name: 1 })
@@ -24,7 +26,7 @@ router.get('/', (req, res) => {
         //若sort-bar選擇全部或為空時，將categories全部欄位賦值給filter_categories
         filter_categories = categories
       }
-      Record.find()
+      Record.find({ userId })
         //record做用categoryId與 category關連
         .populate('categoryId')
         //按照支出日期遞減排序

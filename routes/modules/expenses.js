@@ -21,6 +21,8 @@ router.get('/new', (req, res) => {
 
 //新增費用支出的路由
 router.post('/', (req, res) => {
+  //取得使用者id 與表單資料
+  const userId = req.user._id
   let { name, date, categoryId, amount } = req.body
   //若必輸入欄位有一個未輸入，重新渲染new頁面
   if (!name || !date || !categoryId || !amount) {
@@ -44,8 +46,9 @@ router.post('/', (req, res) => {
   return Record.create({
     name,
     date,
-    categoryId,
     amount,
+    categoryId,
+    userId,
   })
     .then(() => res.redirect('/'))
     .catch(err => console.log(err))
@@ -54,12 +57,14 @@ router.post('/', (req, res) => {
 
 //修改特定費用支出，開啟修改頁面的路由
 router.get('/:record_id/edit', (req, res) => {
+  //取得使用者id及 record的id
+  const userId = req.user._id
   const record_id = req.params.record_id
   //查詢出全部的種類並在渲染edit頁面時，動態產生類別下拉選項
   Category.find({}, { name: 1 })
     .lean()
     .then((categories) => {
-      Record.findById(record_id)
+      Record.findOne({ userId, _id: record_id })
         .lean()
         .then(record => {
           //修改record的日期格式
@@ -75,9 +80,11 @@ router.get('/:record_id/edit', (req, res) => {
 
 //修改特定費用支出的路由
 router.put('/:record_id', (req, res) => {
-  //取得 record_id 及 req.body資料
+  //取得 使用者id 及 record_id 及 req.body資料
+  const userId = req.user._id
   const record_id = req.params.record_id
   let { name, date, categoryId, amount } = req.body
+
   //若有必輸入輸位未輸入，傳回已輸入資料讓使用者重新輸入
   if (!name || !date || !categoryId || !amount) {
     const errors = []
@@ -104,7 +111,7 @@ router.put('/:record_id', (req, res) => {
   }
 
   //找到被修改的資料，修改資料回，回存資料庫
-  return Record.findById(record_id)
+  return Record.findOne({ userId, _id: record_id })
     .then(record => {
       Object.assign(record, req.body)
       return record.save()
@@ -116,11 +123,12 @@ router.put('/:record_id', (req, res) => {
 
 //刪除特定費用支出的路由
 router.delete('/:record_id', (req, res) => {
-  //取得要刪除record的id
+  //取得要刪除record的id及使用者id
+  const userId = req.user._id
   const record_id = req.params.record_id
-  console.log(record_id)
+
   //使用id查詢資料
-  Record.findById(record_id)
+  Record.findOne({ userId, _id: record_id })
     .then(record => {
       //若查無資料，則直接導向首面
       if (!record) return res.redirect('/')
