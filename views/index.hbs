@@ -39,7 +39,10 @@
         </td>
 
         <td><a href="/expenses/{{this._id}}/edit" class="btn btn-info mt-4">修改</a></td>
-        <td><button type="button" class="delete-button btn btn-danger mt-4" data-id={{this._id}}>刪除</button></td>
+
+        <form action="/expenses/{{this._id}}?_method=DELETE" method="POST">
+          <td><button type="submit" class="delete-button btn btn-danger mt-4">刪除</button></td>
+        </form>
       </tr>
       {{/each}}
     </tbody>

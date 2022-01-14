@@ -112,8 +112,21 @@ router.put('/:record_id', (req, res) => {
 })
 
 //刪除特定費用支出的路由
-router.delete('/:id', (req, res) => {
+router.delete('/:record_id', (req, res) => {
+  //取得要刪除record的id
+  const record_id = req.params.record_id
+  //使用id查詢資料
+  Record.findById(record_id)
+    .then(record => {
+      //若查無資料，則直接導向首面
+      if (!record) return res.redirect('/')
 
+      //刪除指定資料後導向首面
+      return record.remove()
+        .then(() => res.redirect('/'))
+        .catch(err => console.log(err))
+
+    })
 })
 
 //匯出router模組
