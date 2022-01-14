@@ -11,18 +11,18 @@ module.exports = app => {
   app.use(passport.session())
 
   //設定本地登入策略
-  passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+  passport.use(new LocalStrategy({ usernameField: 'email', passReqToCallback: true }, (req, email, password, done) => {
     User.findOne({ email })
       .then(user => {
         //沒查詢到資料， 回傳訊息
-        if (!user) return done(null, false, { message: 'Email沒有被註冊!，請重新輸入!' })
+        if (!user) return done(null, false, req.flash('warning_msg', 'Email沒有被註冊!，請重新輸入!'))
 
         //找到使用者， 先使用bcrypt的compare函式將輸入的密碼與資料庫密碼做比對
         return bcrypt
           .compare(password, user.password)
           .then(isMatch => {
             //若密碼輸入錯誤，回傳訊息
-            if (!isMatch) return done(null, false, { message: 'Email或密碼錯誤，請重新輸入!' })
+            if (!isMatch) return done(null, false, req.flash('warning_msg', 'Email或密碼錯誤，請重新輸入!'))
 
             //密碼輸入正確，執行下一步驟
             return done(null, user)
