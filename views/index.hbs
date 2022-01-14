@@ -1,15 +1,16 @@
 <!-- 類別篩選下拉選單 -->
 <form action="/" method="GET">
   <div class="form-group ml-2 mb-5 col-sm-6 mr-auto ml-auto">
-    <select class="form-control" id="sort-bar" name="category">
-      <option value="all">類別</option>
+    <select class="form-control" id="sort-bar" name="categoryId">
+      <option value="{{selected_category._id}}">{{selected_category.name}}</option>
+      <option value="">全部</option>
       {{#each categories}}
       <option value="{{this._id}}">{{this.name}}</option>
       {{/each}}
     </select>
   </div>
 
-  <button id="submit-button" class="d-none">submit</button>
+  <button id="submit-button" type="submit" class="d-none">submit</button>
 </form>
 
 <!-- 顯示總金額 -->
@@ -50,3 +51,5 @@
 <div class="d-flex justify-content-center mt-5">
   <a href="/expenses/new" class="btn btn-warning">新增支出</a>
 </div>
+
+<script src="javascripts/sort.js"></script>
