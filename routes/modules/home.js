@@ -57,7 +57,6 @@ router.get('/', (req, res) => {
           } else {
             selected_category = filter_categories[0]
           }
-          console.log(selected_category)
 
           res.render('index', { categories, selected_category, records: filter_record, totalAmount })
         })
