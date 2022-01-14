@@ -40,9 +40,8 @@
 
         <td><a href="/expenses/{{this._id}}/edit" class="btn btn-info mt-4">修改</a></td>
 
-        <form action="/expenses/{{this._id}}?_method=DELETE" method="POST">
-          <td><button type="submit" class="delete-button btn btn-danger mt-4">刪除</button></td>
-        </form>
+        <td><button type="button" class="delete-button btn btn-danger mt-4 delete-button"
+            data-id="{{this._id}}">刪除</button></td>
       </tr>
       {{/each}}
     </tbody>
@@ -56,3 +55,4 @@
 </div>
 
 <script src="javascripts/sort.js"></script>
+<script src="javascripts/delete_alert.js"></script>

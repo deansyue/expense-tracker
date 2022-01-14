@@ -115,6 +115,7 @@ router.put('/:record_id', (req, res) => {
 router.delete('/:record_id', (req, res) => {
   //取得要刪除record的id
   const record_id = req.params.record_id
+  console.log(record_id)
   //使用id查詢資料
   Record.findById(record_id)
     .then(record => {
