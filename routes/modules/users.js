@@ -76,7 +76,7 @@ router.post('/login', passport.authenticate('local', {
 router.get('/logout', (req, res) => {
   //清除session
   req.logout()
-  req.flash('success_meg', '已成功登出!')
+  req.flash('success_msg', '已成功登出!')
   //重新指向登入路由
   res.redirect('/users/login')
 })
