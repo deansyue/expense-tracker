@@ -41,6 +41,9 @@ usePassport(app)
 //使用flash套件
 app.use(flash())
 app.use((req, res, next) => {
+  //取得註冊相關本地變數
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.user = req.user
   //設定message訊息
   res.locals.success_msg = req.flash('success_msg')
   res.locals.warning_msg = req.flash('warning_msg')
