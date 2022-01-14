@@ -1,5 +1,6 @@
 //引入模組
 const express = require('express')
+const { redirect } = require('express/lib/response')
 const moment = require('moment')
 
 const Category = require('../../models/Category')
@@ -69,8 +70,35 @@ router.get('/:expense_id/edit', (req, res) => {
 })
 
 //修改特定費用支出的路由
-router.put('/:id', (req, res) => {
+router.put('/:record_id', (req, res) => {
+  //取得 record_id 及 req.body資料
+  const _id = req.params.record_id
+  const { name, date, categoryId, amount } = req.body
+  //若有必輸入輸位未輸入，傳回已輸入資料讓使用者重新輸入
+  if (!name || !date || !categoryId || !amount) {
+    return Category.find({}, { name: 1 })
+      .lean()
+      .then((categories) => {
+        //改變date的日期格式
+        date = moment(data).format('YYYY-MM-DD')
+        //取回修改前的種類物件資料
+        const selected_category = categories.find(function filter_category(category) {
+          return category._id.toString() === categoryId.toString()
+        })
+        return res.render('edit', { categories, selected_category, name, date, amount })
+      })
+      .catch(err => console.log(err))
+  }
 
+  //找到被修改的資料，修改資料回，回存資料庫
+  return Record.findById(_id)
+    .then(record => {
+      Object.assign(record, req.body)
+      return record.save()
+    })
+    //重新導向首面
+    .then(() => res.redirect('/'))
+    .catch(err => console.log(err))
 })
 
 //刪除特定費用支出的路由
