@@ -1,5 +1,6 @@
 //引入模組
 const express = require('express')
+const moment = require('moment')
 
 const Category = require('../../models/Category')
 const Record = require('../../models/Record')
@@ -44,12 +45,23 @@ router.post('/', (req, res) => {
 })
 
 //修改特定費用支出，開啟修改頁面的路由
-router.get('/:id/edit', (req, res) => {
+router.get('/:expense_id/edit', (req, res) => {
+  const expense_id = req.params.expense_id
   //查詢出全部的種類並在渲染edit頁面時，動態產生類別下拉選項
   Category.find({}, { name: 1 })
     .lean()
     .then((categories) => {
-      return res.render('edit', { categories })
+      Record.findById(expense_id)
+        .lean()
+        .then(record => {
+          //修改record的日期格式
+          record.date = moment(record.date).format('YYYY-MM-DD')
+          //取回修改前的種類物件資料
+          const selected_category = categories.find(function filter_category(category) {
+            return category._id.toString() === record.categoryId.toString()
+          })
+          return res.render('edit', { categories, selected_category, record })
+        })
     })
 })
 
