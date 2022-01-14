@@ -1,6 +1,7 @@
 //引入模組
 const express = require('express')
 const passport = require('passport')
+const bcrypt = require('bcryptjs')
 
 const User = require('../../models/User')
 
@@ -13,7 +14,44 @@ router.get('/register', (req, res) => {
 
 //註冊使用者路由
 router.post('/register', (req, res) => {
+  //取得註冊表單資料
+  const { name, email, password, confirm_password } = req.body
 
+  //有必輸入欄位沒有輸入，傳回錯誤訊息
+  if (!name || !email || !password || !confirm_password) {
+    return res.render('register', { name, email, message: '*為必輸入欄位，請重新輸入!' })
+  }
+
+  //password與confirm_password輸入不一致時
+  if (confirm !== confirm_password) {
+    return res.render('register', { name, email, message: 'password與confirm_password不一致，請重新輸入!' })
+  }
+
+  //若必輸入欄位皆輸入且 密碼確認一致
+  User.findOne({ email })
+    .then(user => {
+      //查已有註冊的使用者，回傳錯誤訊息
+      if (user) {
+        return res.render('register', { name, email, message: '該Email已被註冊，請重新輸入!' })
+      }
+
+      //無已註冊使用者，使用bcrypt加嚴密碼
+      bcrypt
+        .genSalt(10)
+        .then(salt => bcrypt.hash(password, salt))
+        .then(hash => {
+          //在資料庫新增資料
+          User.create({
+            name,
+            email,
+            password: hash
+          })
+            .catch(err => console.log(err))
+        })
+        //重新導向首面
+        .then(() => res.redirect('/'))
+        .catch(err => console.log(err))
+    })
 })
 
 //開啟登入表單路由
