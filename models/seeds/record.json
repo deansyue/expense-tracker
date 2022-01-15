@@ -1,0 +1,40 @@
+{
+  "results": [
+    {
+      "name": "生活必需品",
+      "date": "2022-1-1",
+      "amount": 100,
+      "category": "家居物業"
+    },
+    {
+      "name": "高鐵通勤",
+      "date": "2022-1-2",
+      "amount": 200,
+      "category": "交通出行"
+    },
+    {
+      "name": "Steam",
+      "date": "2022-1-3",
+      "amount": 300,
+      "category": "休閒娛樂"
+    },
+    {
+      "name": "xx高檔餐廳",
+      "date": "2022-1-4",
+      "amount": 400,
+      "category": "餐飲食品"
+    },
+    {
+      "name": "手續費",
+      "date": "2022-1-5",
+      "amount": 500,
+      "category": "其他"
+    },
+    {
+      "name": "晚餐",
+      "date": "2022-1-5",
+      "amount": 400,
+      "category": "餐飲食品"
+    }
+  ]
+}
