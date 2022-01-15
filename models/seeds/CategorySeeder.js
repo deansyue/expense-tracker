@@ -38,7 +38,7 @@ db.once('open', () => {
     return Category.create(seed_category)
   }))
     .then(() => {
-      console.log('data is created!')
+      console.log('Category data is created!')
       process.exit()
     })
 
