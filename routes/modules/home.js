@@ -17,10 +17,16 @@ router.get('/', (req, res) => {
     .lean()
     .then(categories => {
       let filter_categories = []
-      //若categoryId有值時，將符合的Id賦值給filter_categories
+      //若categoryId有值時，將符合的Id賦值給filter_categories，
+      //並把被選擇到的category新增屬性isSelected做為渲染hbs時判斷該選項是否要新增selected屬性用，
+      //若資料庫的category都沒有isSelected時，就等於使用者選擇了全部，sor-bar就會直接指到最上面的"全部"
       if (categoryId !== '' && typeof (categoryId) !== 'undefined') {
         filter_categories = categories.filter(function filterCategoryId(category) {
-          return category._id.toString() === categoryId
+          if (category._id.toString() === categoryId) {
+            category.isSelected = true
+            return category
+          }
+
         })
       } else {
         //若sort-bar選擇全部或為空時，將categories全部欄位賦值給filter_categories
@@ -35,7 +41,6 @@ router.get('/', (req, res) => {
         .then(records => {
           let totalAmount = 0
           let filter_record = []
-          let selected_category = {}
 
           //將符合sort-bar選值的record，給予filter_record為handlebar渲染資料用
           records.forEach(function filterCategory(record) {
@@ -45,22 +50,14 @@ router.get('/', (req, res) => {
               }
             })
           })
+
           //計算sort-bar選擇種類的總金額，並為每一筆日期修改格式成yyyy/mm/dd
           filter_record.forEach(record => {
             totalAmount += record.amount
             record.date = moment(record.date).format('YYYY/MM/DD')
           })
 
-          //將sort-bar選擇的種類，賦值給selected_category
-          //用其渲染下拉選單第一選項，讓使用者知道自己現在選擇的是哪一個選項
-          if (filter_categories.length !== 1) {
-            selected_category.name = '全部'
-            selected_category._id = ''
-          } else {
-            selected_category = filter_categories[0]
-          }
-
-          res.render('index', { categories, selected_category, records: filter_record, totalAmount })
+          res.render('index', { categories, records: filter_record, totalAmount })
         })
         .catch(err => console.log(err))
     })
